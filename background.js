@@ -1,33 +1,6 @@
-let test = "test"
-let finalUrl = [];
-self.addEventListener('message', function(event) {
-    if (event.data === 'getFinalUrl') {
-      event.source.postMessage(finalUrl);
-    }
-});
-var finalUrlProxy = new Proxy(finalUrl, {
-    set: function(target, property, value) {
-      // Set the value of the 'finalUrl' variable
-      target[property] = value;
-      // Use the 'postMessage' function to send the updated value of the 'finalUrl' variable
-      self.postMessage(finalUrl);
-    }
-});
-
-//   addEventListener('message', event => {
-//     // event is an ExtendableMessageEvent object
-//     console.log(`The client sent me a message: ${event.data}`);
-  
-//     event.source.postMessage("Hi client");
-//   });
-  
+let finalUrl;
+const urlCounter = {};
 chrome.tabs.onActivated.addListener((tab) => { //onupdated
-    console.log('test')
-    console.log(chrome.tabs)
-    //if curr tab is a valid URL
-    console.log(tab);
-
-
     function cleanURL(url) {
         let cleanedURL = "";
         const testString = "moc."
@@ -44,7 +17,6 @@ chrome.tabs.onActivated.addListener((tab) => { //onupdated
                 let reversedArray = splitString.reverse()
                 cleanedURL = reversedArray.join('');
                 cleanedURL += ".com"
-                console.log(cleanedURL)
                 i = -1;
                 break;
             }
@@ -54,37 +26,21 @@ chrome.tabs.onActivated.addListener((tab) => { //onupdated
     
     chrome.tabs.get(tab.tabId, (tab1) => { 
         let url = cleanURL(tab1.url);
-        console.log(url)
-        if(finalUrl[0] !== url) finalUrl[0] = url;
+        if(finalUrl !== url) finalUrl = url;
+        console.log(finalUrl)
+        // incrimentTime();
     });
 
-    
+    function incrimentTime() {
+        if(urlCounter[finalUrl] === undefined) urlCounter[finalUrl] = 0;
+        urlCounter[finalUrl] += 1;
+    }
+    setInterval(incrimentTime, 1000);
 
-    
- 
-    
-    // someEventThatCompletes.oncomplete = event => {
-    //     client.postMessage('renderList');
-    // }
-    
-    
-    // chrome.tabs.sendMessage(finalUrl);
-
-    //sent message
-    // if (finalUrl) {
-    //     // stores URL data for tracking curr tab
-    //     const queryParamenters = finalUrl;
-    //     console.log("tabURL = ", queryParamenters)
-    //     // //add url parameters interface
-    //     const urlParameters = new URLSearchParams(queryParamenters);
-    //     // //send main file tab opened/curr tab info
-    //     console.log(urlParameters); //should have methods on it when logged
-    //     chrome.tabs.sendMessage(finalUrl[0]);
-    //     // chrome.tabs.sendMessage(finalUrl, {
-    //     //     type: "NEW",
-    //     //     newTabId: urlParameters.get(finalUrl) //may not grab correct url, .get('url')
-    //     // });
-    // }
 });
-
-// 
+// trev was still here hehehe
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.txt === 'get-url-counter') {
+        sendResponse(urlCounter);
+    }
+})
