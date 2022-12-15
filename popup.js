@@ -76,6 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // }
         });
+
+        chrome.runtime.sendMessage({ txt: 'to-main' }, function(response) {
+            // on response logic here
+            console.log(response);
+        });
     }
     const body = document.querySelector('body');
     reset()
