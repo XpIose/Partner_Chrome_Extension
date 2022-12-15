@@ -34,12 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(sortable)
             let sum = 0;
             for (const [url, count] of Object.entries(response)) {
-                if (url != undefined && url != '') sum += count;
+                if (url != 'undefined' && url != '') sum += count;
                 
             }
             let j = 0; 
             while (j < sortable.length && j < 5) {
-                if (sortable[j][0] != undefined && sortable[j][0] != "") {
+                if (sortable[j][0] != 'undefined' && sortable[j][0] != "") {
                     let singleGraphContainer = document.createElement('div');
                     singleGraphContainer.setAttribute('class', 'singleGraphContainer');
                     graphContainer.appendChild(singleGraphContainer);
@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(response);
         });
     }
-    const body = document.querySelector('body');
     reset()
 
     let resetButton = document.getElementById('reset');
