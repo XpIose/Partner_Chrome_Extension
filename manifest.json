@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "name": "My Extension",
+    "version": "1.0",
+    "description": "Description",
+    "permissions": ["tabs","activeTab"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["main.js"]
+      }
+    ],
+    "browser_action": {
+        "default_icon": "./assets/test_icon.png", 
+        "default_popup": "popup.html"
+    }
+
+  }
+  
