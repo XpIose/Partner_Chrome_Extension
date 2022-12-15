@@ -1,4 +1,3 @@
-
 let finalUrl;
 const urlCounter = {};
 let ticker;
@@ -44,8 +43,3 @@ chrome.tabs.onActivated.addListener((tab) => { //onupdated
 
 });
 // trev was still here hehehe
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.txt === 'get-url-counter') {
-        sendResponse(urlCounter);
-    }
-})

@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     
-
     
     function reset() {
         // let test1 = document.createElement('div');
@@ -10,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.runtime.sendMessage({ txt: 'get-url-counter' }, function(response) {
             // on response logic here
             console.log(response);
-
             //Dom manipulation
             let graphContainer = document.getElementById('gc')
             const prevGraphs = gc.getElementsByClassName('singleGraphContainer')
@@ -27,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
             for (var url in response) {
                 sortable.push([url, response[url]]);
             }
-
             sortable.sort(function(a, b) {
                 return b[1] - a[1];
             });
@@ -35,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let sum = 0;
             for (const [url, count] of Object.entries(response)) {
                 if (url != 'undefined' && url != '') sum += count;
-                
+
             }
             let j = 0; 
             while (j < sortable.length && j < 5) {
@@ -56,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 j++;
             }
-
             // for (const [url, count] of Object.entries(response)) {
             //     if (url != undefined && url != ""){
             //         let singleGraphContainer = document.createElement('div');
@@ -73,20 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
             //         usageContainer.innerHTML = "<div class='usage' style='width:" + Math.floor((count/sum)*100) + "px'></div>"
             //         singleGraphContainer.appendChild(usageContainer)
             //     }
-
             // }
-        });
-
-        chrome.runtime.sendMessage({ txt: 'to-main' }, function(response) {
-            // on response logic here
-            console.log(response);
         });
     }
     reset()
 
     let resetButton = document.getElementById('reset');
     resetButton.addEventListener("click", reset);
-
 });
-
-
