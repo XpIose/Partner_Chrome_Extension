@@ -1,5 +1,6 @@
 let finalUrl;
 const urlCounter = {};
+let ticker;
 chrome.tabs.onActivated.addListener((tab) => { //onupdated
     function cleanURL(url) {
         let cleanedURL = "";
@@ -32,10 +33,13 @@ chrome.tabs.onActivated.addListener((tab) => { //onupdated
     });
 
     function incrimentTime() {
+        if (ticker != undefined) clearInterval(ticker)
         if(urlCounter[finalUrl] === undefined) urlCounter[finalUrl] = 0;
         urlCounter[finalUrl] += 1;
+        console.log(urlCounter)
+        ticker = setInterval(incrimentTime, 1000);
     }
-    setInterval(incrimentTime, 1000);
+    incrimentTime()
 
 });
 // trev was still here hehehe
